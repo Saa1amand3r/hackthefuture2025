@@ -7,6 +7,7 @@ __all__ = ["PipelineConfig"]
 @dataclass(frozen=True)
 class PipelineConfig:
     numeric: list[str]
+    categorical: list[str]
     log: list[str]
 
     selector_kind: str | None = None
