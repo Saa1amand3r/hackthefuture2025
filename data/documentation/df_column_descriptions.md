@@ -46,3 +46,4 @@ Simple variables:
 -> Temperature_X
 -> Windspeed
 -> Distance_to_Shore
+-> Depth_m
