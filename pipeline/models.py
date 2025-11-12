@@ -3,14 +3,14 @@ from __future__ import annotations
 from typing import Callable, Any, Dict
 
 from sklearn.base import clone
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression, Lasso
 
 __all__ = ["ModelFactory", "DEFAULT_MODELS", "make_model"]
 
-
+from sklearn.tree import DecisionTreeRegressor
 
 ModelFactory = Callable[[], Any]
-
 
 def _lr() -> Any:
     return LinearRegression()
@@ -30,9 +30,12 @@ def _rf_regressor() -> Any:
         n_jobs=-1
     )
 
+def _lasso() -> Any:
+    return Lasso(alpha=0.001, max_iter=1000000)
+
 DEFAULT_MODELS: Dict[str, ModelFactory] = {
     "linreg": _lr,
-    "logreg": _lr,
+    "lasso": _lasso,
     "dt_regressor": _dt_regressor,
     "rf_regressor": _rf_regressor
 }

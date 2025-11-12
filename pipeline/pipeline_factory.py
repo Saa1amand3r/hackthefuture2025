@@ -21,19 +21,21 @@ class PipelineFactory:
     def build(self, cfg: PipelineConfig) -> Pipeline:
         steps: list[tuple[str, Any]] = []
 
-        steps.append(("preprocess",
-                      self.preprocess_factory(cfg.numeric, cfg.log)))
-
+        steps.append((
+            "preprocess",
+            self.preprocess_factory(cfg.numeric, cfg.log, cfg.categorical)
+        ))
         selector = self.selector_factory(cfg.selector_kind, cfg.selector_k)
         if selector is not None:
             steps.append(("select", selector))
 
-        sampler = SAMPLER_REGISTRY[cfg.resampler]   # "none" → None
-        if sampler is not None:
-            if (isinstance(sampler,list)):
-                steps.extend(sampler)
-            else:
-                steps.append(("resample", sampler))
+        if cfg.resampler is not None:
+            sampler = SAMPLER_REGISTRY[cfg.resampler]  # "none" → None
+            if sampler is not None:
+                if isinstance(sampler, list):
+                    steps.extend(sampler)
+                else:
+                    steps.append(("resample", sampler))
 
         if cfg.model_name:
             steps.append(("model", make_model(cfg.model_name,
