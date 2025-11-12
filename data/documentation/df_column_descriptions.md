@@ -41,3 +41,8 @@
 | **Turbidity**                             | Light attenuation coefficient (Kd490), measuring how much light is scattered or absorbed by particles in the water.                     | **m⁻¹**                             | Higher = murkier water; can protect corals from light stress but reduce photosynthesis.                                                                |
 | **Cyclone_Frequency**                     | Number of cyclone events between 1964–2014 near the site.                                                                               | —                                   | Historical storm frequency; high values imply more physical disturbance.                                                                               |
 | **Percent_Bleached**                      | Percentage of corals at the site observed to be bleached.                                                                               | **percent (%)**                     | The main target variable — indicates coral health (higher percentage = worse coral health).                                                            |
+
+Simple variables:
+-> Temperature_X
+-> Windspeed
+-> Distance_to_Shore
