@@ -12,6 +12,9 @@ from .models       import make_model, DEFAULT_MODELS, ModelFactory
 
 __all__ = ["PipelineFactory"]
 
+from .weighted_model import WeightedModel
+
+
 @dataclass
 class PipelineFactory:
     model_registry: Dict[str, ModelFactory] = field(default_factory=lambda: DEFAULT_MODELS.copy())
@@ -38,8 +41,12 @@ class PipelineFactory:
                     steps.append(("resample", sampler))
 
         if cfg.model_name:
-            steps.append(("model", make_model(cfg.model_name,
-                                              registry=self.model_registry)))
+            base = make_model(cfg.model_name, registry=self.model_registry)
+            if getattr(cfg, "weighting", None) is not None:
+                model = WeightedModel(base_estimator=base, weighting=cfg.weighting)
+            else:
+                model = base
+            steps.append(("model", model))
 
         return Pipeline(steps, verbose=False)
 
